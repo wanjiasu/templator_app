@@ -15,6 +15,7 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - PNPM_IGNORE_SCRIPTS=false
     command: sh -c "corepack enable pnpm && pnpm install && pnpm dev"
     networks:
       - app-network
