@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Next.js 前端服务
+  frontend:
+    image: node:18-alpine
+    container_name: templator_frontend
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    command: sh -c "corepack enable pnpm && pnpm install && pnpm dev"
+    networks:
+      - app-network
+
+  # FastAPI 后端服务
+  backend:
+    image: python:3.11-slim
+    container_name: templator_backend
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    command: sh -c "pip install -r requirements.txt && uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
