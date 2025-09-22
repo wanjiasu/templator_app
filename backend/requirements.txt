@@ -2,8 +2,8 @@
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 
-# 配置管理
-pydantic-settings==2.0.3
+# 环境变量管理
+python-dotenv==1.0.0
 
 # 开发工具
 python-multipart==0.0.6
